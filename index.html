@@ -1,110 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Epiphany 💖</title>
+
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom right, #ff9ecf, #ff4f81);
-        text-align: center;
-        color: white;
-        overflow-x: hidden;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #ff9ecf, #ff4f81);
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
 
-    h1 {
-        margin-top: 40px;
-        font-size: 3rem;
-    }
+h1 {
+    margin-top: 40px;
+    font-size: 3rem;
+}
 
-    #countdown {
-        font-size: 1.5rem;
-        margin: 20px 0;
-    }
+#countdown {
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
 
-    .buttons {
-        position: relative;
-        height: 200px;
-        margin-top: 30px;
-    }
+.buttons {
+    position: relative;
+    height: 200px;
+}
 
-    button {
-        padding: 15px 35px;
-        font-size: 1.2rem;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        position: absolute;
-        font-weight: bold;
-        transition: 0.2s;
-    }
+button {
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    position: absolute;
+}
 
-    #yesBtn {
-        background-color: #ff2e63;
-        color: white;
-        left: 40%;
-        top: 100px;
-    }
+#yesBtn {
+    background-color: #ff2e63;
+    color: white;
+    left: 40%;
+    top: 80px;
+}
 
-    #noBtn {
-        background-color: white;
-        color: #ff2e63;
-        left: 55%;
-        top: 100px;
-    }
+#noBtn {
+    background-color: white;
+    color: #ff2e63;
+    left: 55%;
+    top: 80px;
+}
 
-    /* DRAMATIC FADE IN */
-    .photo-section {
-        margin-top: 60px;
-        opacity: 0;
-        transform: scale(0.8);
-        animation: dramaticFade 3s ease forwards;
-        animation-delay: 1s;
-    }
+.photo-section {
+    margin-top: 40px;
+}
 
-    @keyframes dramaticFade {
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
+.photo-section img {
+    width: 80%;
+    max-width: 700px;
+    border-radius: 20px;
+    cursor: pointer;
+}
 
-    .photo-section img {
-        width: 80%;
-        max-width: 800px;
-        border-radius: 20px;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-        cursor: pointer;
-    }
+.bias-text {
+    font-size: 1.8rem;
+    margin-top: 10px;
+    font-weight: bold;
+}
 
-    .bias-text {
-        font-size: 1.8rem;
-        margin-top: 15px;
-        font-weight: bold;
-    }
+.footer {
+    margin-top: 40px;
+    font-size: 1.2rem;
+}
 
-    .footer {
-        margin-top: 60px;
-        font-size: 1.2rem;
-        opacity: 0.9;
-        padding-bottom: 30px;
-    }
+.sparkle {
+    position: fixed;
+    font-size: 22px;
+    animation: floatUp 1.5s linear forwards;
+}
 
-    .heart, .sparkle {
-        position: fixed;
-        font-size: 24px;
-        pointer-events: none;
-        animation: float 2s linear forwards;
-    }
+@keyframes floatUp {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-120px); }
+}
 
-    @keyframes float {
-        0% { transform: translateY(0); opacity: 1; }
-        100% { transform: translateY(-150px); opacity: 0; }
-    }
+.heart {
+    position: fixed;
+    font-size: 24px;
+    animation: floatUp 2s linear forwards;
+}
 </style>
 </head>
+
 <body>
 
 <h1>Epiphany 💘</h1>
@@ -118,7 +107,7 @@
 </div>
 
 <div class="photo-section">
-    <img src="bts.png" id="btsPhoto" alt="BTS">
+    <img src="bts.png" id="btsPhoto">
     <div class="bias-text">You are my bias ❤️</div>
 </div>
 
@@ -126,25 +115,24 @@
     Forever yours, Frank ❤️
 </div>
 
-<!-- Background Music -->
-<audio id="bgMusic" src="love.mp3" loop></audio>
+<audio id="music" src="love.mp3" loop></audio>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const photo = document.getElementById("btsPhoto");
-const music = document.getElementById("bgMusic");
+const music = document.getElementById("music");
 
-/* Try autoplay (some browsers block until interaction) */
-window.addEventListener("click", () => {
+/* Start music on first click (browser rule) */
+document.body.addEventListener("click", () => {
     music.play();
 }, { once: true });
 
-/* Countdown */
+/* FIXED COUNTDOWN */
 function updateCountdown() {
     const now = new Date();
     let year = now.getFullYear();
-    let valentines = new Date(year, 1, 14);
+    let valentines = new Date(year, 1, 14); // Feb 14
 
     if (now > valentines) {
         valentines = new Date(year + 1, 1, 14);
@@ -158,35 +146,37 @@ function updateCountdown() {
     const seconds = Math.floor((diff / 1000) % 60);
 
     document.getElementById("countdown").innerHTML =
-        `💖 ${days}d ${hours}h ${minutes}m ${seconds}s until Valentine's Day 💖`;
+        `💖 ${days} days ${hours}h ${minutes}m ${seconds}s until Valentine's Day 💖`;
 }
+
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-/* Runaway NO button */
-document.addEventListener("mousemove", (e) => {
-    const rect = noBtn.getBoundingClientRect();
-    const distance = Math.hypot(
-        e.clientX - (rect.left + rect.width / 2),
-        e.clientY - (rect.top + rect.height / 2)
-    );
+/* FIXED RUNAWAY NO BUTTON (hover version) */
+noBtn.addEventListener("mouseenter", () => {
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    if (distance < 100) {
-        const maxX = window.innerWidth - noBtn.offsetWidth;
-        const maxY = window.innerHeight - noBtn.offsetHeight;
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-        noBtn.style.left = Math.random() * maxX + "px";
-        noBtn.style.top = Math.random() * maxY + "px";
-    }
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
 });
 
-/* YES celebration */
+/* YES BUTTON MESSAGE */
 yesBtn.addEventListener("click", () => {
-    createHearts();
+    document.body.innerHTML = `
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:#ff4f81;color:white;text-align:center;">
+            <h1>Epiphany said YESSS 💕</h1>
+            <h2>Best day ever 😭❤️</h2>
+        </div>
+    `;
+    celebrate();
 });
 
-/* Floating hearts */
-function createHearts() {
+/* Hearts celebration */
+function celebrate() {
     setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
@@ -194,3 +184,23 @@ function createHearts() {
         heart.style.left = Math.random() * window.innerWidth + "px";
         heart.style.bottom = "0px";
         document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+    }, 200);
+}
+
+/* Sparkles when clicking BTS */
+photo.addEventListener("click", (e) => {
+    for (let i = 0; i < 10; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.innerHTML = "✨";
+        sparkle.style.left = (e.clientX + Math.random() * 40 - 20) + "px";
+        sparkle.style.top = (e.clientY + Math.random() * 40 - 20) + "px";
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1500);
+    }
+});
+</script>
+
+</body>
+</html>
