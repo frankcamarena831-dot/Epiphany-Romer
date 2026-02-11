@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Epiphany 💖</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ff9ecf, #ff4f81);
+        text-align: center;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    h1 {
+        margin-top: 40px;
+        font-size: 3rem;
+    }
+
+    #countdown {
+        font-size: 1.5rem;
+        margin: 20px 0;
+    }
+
+    .buttons {
+        position: relative;
+        height: 200px;
+        margin-top: 30px;
+    }
+
+    button {
+        padding: 15px 35px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        position: absolute;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    #yesBtn {
+        background-color: #ff2e63;
+        color: white;
+        left: 40%;
+        top: 100px;
+    }
+
+    #noBtn {
+        background-color: white;
+        color: #ff2e63;
+        left: 55%;
+        top: 100px;
+    }
+
+    /* DRAMATIC FADE IN */
+    .photo-section {
+        margin-top: 60px;
+        opacity: 0;
+        transform: scale(0.8);
+        animation: dramaticFade 3s ease forwards;
+        animation-delay: 1s;
+    }
+
+    @keyframes dramaticFade {
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .photo-section img {
+        width: 80%;
+        max-width: 800px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        cursor: pointer;
+    }
+
+    .bias-text {
+        font-size: 1.8rem;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    .footer {
+        margin-top: 60px;
+        font-size: 1.2rem;
+        opacity: 0.9;
+        padding-bottom: 30px;
+    }
+
+    .heart, .sparkle {
+        position: fixed;
+        font-size: 24px;
+        pointer-events: none;
+        animation: float 2s linear forwards;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-150px); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+
+<h1>Epiphany 💘</h1>
+<h2>Will you be my Valentine? 💖</h2>
+
+<div id="countdown"></div>
+
+<div class="buttons">
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<div class="photo-section">
+    <img src="bts.png" id="btsPhoto" alt="BTS">
+    <div class="bias-text">You are my bias ❤️</div>
+</div>
+
+<div class="footer">
+    Forever yours, Frank ❤️
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" src="love.mp3" loop></audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const photo = document.getElementById("btsPhoto");
+const music = document.getElementById("bgMusic");
+
+/* Try autoplay (some browsers block until interaction) */
+window.addEventListener("click", () => {
+    music.play();
+}, { once: true });
+
+/* Countdown */
+function updateCountdown() {
+    const now = new Date();
+    let year = now.getFullYear();
+    let valentines = new Date(year, 1, 14);
+
+    if (now > valentines) {
+        valentines = new Date(year + 1, 1, 14);
+    }
+
+    const diff = valentines - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML =
+        `💖 ${days}d ${hours}h ${minutes}m ${seconds}s until Valentine's Day 💖`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* Runaway NO button */
+document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+    );
+
+    if (distance < 100) {
+        const maxX = window.innerWidth - noBtn.offsetWidth;
+        const maxY = window.innerHeight - noBtn.offsetHeight;
+
+        noBtn.style.left = Math.random() * maxX + "px";
+        noBtn.style.top = Math.random() * maxY + "px";
+    }
+});
+
+/* YES celebration */
+yesBtn.addEventListener("click", () => {
+    createHearts();
+});
+
+/* Floating hearts */
+function createHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.bottom = "0px";
+        document.body.appendChild(heart);
